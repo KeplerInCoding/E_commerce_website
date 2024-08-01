@@ -1,17 +1,15 @@
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-
-// Load config
-dotenv.config({ path: "backend/config/config.env" });
 
 const connectDatabase = () => {
-  mongoose.connect(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongoDB connected successfully");
-  });
+    mongoose.connect(process.env.DB_URI, {
+        // useNewUrlParser: true, // Remove this line
+        // useUnifiedTopology: true, // Remove this line
+    }).then((data) => {
+        console.log(`MongoDB connected with server: ${data.connection.host}`);
+    }).catch((err) => {
+        console.log(`MongoDB connection failed: ${err.message}`);
+        process.exit(1);
+    });
 };
 
 module.exports = connectDatabase;
