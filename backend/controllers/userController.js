@@ -2,6 +2,8 @@ const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -58,6 +60,75 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
         message: "Logged out",
     });
 });
+
+//Reset Forgot Password
+exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return next(new ErrorHandler("User not found with this email", 404));
+    }
+    // Get resetPassword token
+    const resetToken = user.getResetPasswordToken();
+    await user.save({ validateBeforeSave: false });
+
+    const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1
+    /password/reset/${resetToken}`
+
+    const message = `You password reset token is :- \n\n ${resetPasswordUrl} \
+    \n\n If you have not requested this email then please ignore it.`
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: "Flipzon Reset Token",
+            message,
+        });
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email} successfully`
+        });
+        } catch (err) {
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpire = undefined;
+            await user.save({ validateBeforeSave: false });
+            return next(new ErrorHandler(err.message, 500));
+        }
+    });
+
+
+//reset password
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+    //creating token hash
+    const resetPasswordToken = crypto
+        .createHash('sha256')
+        .update(req.params.token)
+        .digest('hex');
+
+    const user = await User.findOne
+    ({ 
+        resetPasswordToken, 
+        resetPasswordExpire: { $gt: Date.now() }, 
+    });
+
+    if (!user) {
+        return next(new ErrorHandler("Invalid token", 400));
+    }
+
+    if (req.body.password !== req.body.confirmPassword) {
+        return next(new ErrorHandler("Password does not match", 400));
+    }
+    //update password
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    sendToken(user, 200, res);
+});
+
+
+
+
 
 // Get user details
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
