@@ -5,6 +5,7 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 
+
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -61,7 +62,7 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-//Reset Forgot Password
+//Forgot Password
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -168,7 +169,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         email: req.body.email,
     };
 
-    // You can add logic to update avatar here
+    // You can add logic to update avatar here---cloudinary
 
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
         new: true,
