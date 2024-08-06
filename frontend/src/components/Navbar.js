@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../images/logo.png';
+import logo from '../images/Logo.png';
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -12,27 +12,34 @@ const Navbar = () => {
     <div className='w-screen heading'>
       <div className='h-16 z-20 w-screen fixed flex place-content-evenly items-center'>
         <div className='flex items-center'>
-          <div className=' flex-shrink-0'><img src={logo} alt="logo" width="300px" /></div>
+          <div className='flex-shrink-0'>
+            <img src={logo} alt="logo" width="200px" />
+          </div>
         </div>
-        <div className='gap-4 text-2xl text-gray-200 flex-shrink-0 hidden md:flex'>
-        <a href="https://www.linkedin.com/in/shreya-sharma-104278198/"><i className="fab fa-linkedin hover:text-pink-900"></i></a>
-          <a href="https://www.instagram.com/shr.yey/"><i className="fab fa-instagram hover:text-pink-900"></i></a>
-          <a href="https://twitter.com/Shreya___20"><i className="fab fa-twitter hover:text-pink-900"></i></a>
-          <a href="https://github.com/KeplerInCoding"><i className="fab fa-github hover:text-pink-900"></i></a>
-          <a href="https://open.spotify.com/user/au3j9dyoyj8pdrn04aul2u1t3"><i className="fab fa-spotify hover:text-pink-900"></i></a>
+        <div className='gap-4 flex-shrink-0 hidden md:flex font-semibold'>
+          <div className='hover:text-blue-900'>HOME</div>
+          <div className='hover:text-blue-900'>PRODUCT</div>
+          <div className='hover:text-blue-900'>CONTACT</div>
+          <div className='hover:text-blue-900'>ABOUT</div>
+        </div>
+        <div className='flex gap-4'>
+          <div><i className="fa-solid fa-magnifying-glass"></i></div>
+          <div><i className="fa-solid fa-cart-shopping"></i></div>
+          <div><i className="fa-solid fa-user"></i></div>
         </div>
 
         <div className='md:hidden'>
-          <button onClick={toggleMenu} className='text-white'>
-            <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+          <button onClick={toggleMenu} className="transition-transform duration-300 ease-in-out">
+            <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'} transform ${isMenuOpen ? 'rotate-90' : 'rotate-0'}`}></i>
           </button>
         </div>
-        <div className={`font-semibold md:hidden absolute text-2xl place-content-end right-0 top-[65px] p-5 bg-slate-800/70 text-white px-3 items-center flex gap-5 ${isMenuOpen ? 'flex flex-col' : 'hidden'}`}>
-          <a href="https://www.linkedin.com/in/shreya-sharma-104278198/"><i className="hover:text-pink-900 fab fa-linkedin"></i></a>
-          <a href="https://www.instagram.com/shr.yey/"><i className="hover:text-pink-900 fab fa-instagram"></i></a>
-          <a href="https://twitter.com/Shreya___20"><i className="hover:text-pink-900 fab fa-twitter"></i></a>
-          <a href="https://github.com/KeplerInCoding"><i className="hover:text-pink-900 fab fa-github"></i></a>
-          <a href="https://open.spotify.com/user/au3j9dyoyj8pdrn04aul2u1t3"><i className="hover:text-pink-900 fab fa-spotify"></i></a>
+        <div className={`font-semibold md:hidden absolute right-0 top-[65px] py-10 w-full bg-gradient-to-b from-white to-gray-400 px-3 items-center flex flex-col gap-5 
+          transition-all duration-1000 ease-in-out transform 
+          ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+          <div className={`transition-opacity duration-300 transform ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-0'} delay-300 hover:font-bold`}>HOME</div>
+          <div className={`transition-opacity duration-300 transform ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-0'} delay-500 hover:font-bold`}>PRODUCT</div>
+          <div className={`transition-opacity duration-300 transform ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-0'} delay-700 hover:font-bold`}>CONTACT</div>
+          <div className={`transition-opacity duration-300 transform ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-30'} delay-1000 hover:font-bold`}>ABOUT</div>
         </div>
       </div>
     </div>
