@@ -9,8 +9,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className='w-screen heading'>
-      <div className='h-16 z-20 w-screen fixed flex place-content-evenly items-center'>
+    <div className='w-screen'>
+      <div className='h-16 z-20 w-screen fixed flex place-content-evenly items-center backdrop-blur-lg'>
         <div className='flex items-center'>
           <div className='flex-shrink-0'>
             <img src={logo} alt="logo" width="200px" />
@@ -23,9 +23,9 @@ const Navbar = () => {
           <div className='hover:text-blue-900'>ABOUT</div>
         </div>
         <div className='flex gap-4'>
-          <div><i className="fa-solid fa-magnifying-glass"></i></div>
-          <div><i className="fa-solid fa-cart-shopping"></i></div>
-          <div><i className="fa-solid fa-user"></i></div>
+          <div><i className="fa-solid fa-magnifying-glass hover:text-blue-900"></i></div>
+          <div><i className="fa-solid fa-cart-shopping hover:text-blue-900"></i></div>
+          <div><i className="fa-solid fa-user hover:text-blue-900"></i></div>
         </div>
 
         <div className='md:hidden'>
