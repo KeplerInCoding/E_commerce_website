@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <Link className="productCard" to={`/product/${product._id}`}>
-            <div className='border border-gray-200 rounded-lg overflow-hidden shadow-lg'>
+            <div className='border border-gray-200 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105'>
                 <img src={product.image} alt={product.name} className='w-full h-64 object-cover' />
                 <div className='p-4'>
                     <h2 className='text-lg font-bold mb-2'>{product.name}</h2>

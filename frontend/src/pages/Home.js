@@ -6,17 +6,22 @@ import { getProduct } from '../actions/ProductAction';
 import Metadata from '../components/Metadata';
 import ProductCard from '../components/ProductCard';
 import Spinner from '../components/Spinner';
+import { useAlert } from 'react-alert';
 
 const Home = () => {
     const dispatch = useDispatch();
+    const alert = useAlert();
     const { loading, error, products, productsCount } = useSelector(state => state.products);
 
     // Create a reference for the featured products section
     const featuredProductsRef = useRef(null);
 
     useEffect(() => {
+        if(error){
+            return alert.error(error);
+        }
         dispatch(getProduct());
-    }, [dispatch]);
+    }, [dispatch, error]);
 
     // Scroll to the featured products section
     const scrollToFeaturedProducts = () => {

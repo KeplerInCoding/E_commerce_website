@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/footer/Footer";
 import {Route, Routes} from 'react-router-dom';
 import Home from "./pages/Home";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="/phobias" element={<Home/>}></Route>
+        <Route path="/product/:id" element={<ProductDetails/>}></Route>
         <Route path="/chatbot" element={<Home/>}></Route>
         <Route path="/explore" element={<Home/>}></Route>
       </Routes>
