@@ -1,6 +1,8 @@
+const path = require("path");
 const dotenv = require("dotenv");
 const app = require("./app");
 const connectDatabase = require("./config/database");
+
 
 //HAndling uncaught exception
 process.on("uncaughtException", (err) => {
@@ -12,7 +14,9 @@ process.on("uncaughtException", (err) => {
 // console.log(heloo);
 
 // Config
-dotenv.config({ path: "backend/config/config.env" });
+dotenv.config({ path: path.resolve(__dirname, 'config/config.env') });
+
+
 
 const PORT = process.env.PORT || 4000;
 

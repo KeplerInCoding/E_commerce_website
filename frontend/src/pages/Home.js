@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import bgimg from "../images/cover.jfif";
 import "../index.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,29 +6,26 @@ import { getProduct } from '../actions/ProductAction';
 import Metadata from '../components/Metadata';
 import ProductCard from '../components/ProductCard';
 import Spinner from '../components/Spinner';
-import { useAlert } from 'react-alert';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const alert = useAlert();
     const { loading, error, products, productsCount } = useSelector(state => state.products);
 
-    // Create a reference for the featured products section
-    const featuredProductsRef = useRef(null);
-
     useEffect(() => {
-        if(error){
-            return alert.error(error);
-        }
         dispatch(getProduct());
-    }, [dispatch, error]);
+    }, [dispatch]);
 
     // Scroll to the featured products section
     const scrollToFeaturedProducts = () => {
-        if (featuredProductsRef.current) {
-            featuredProductsRef.current.scrollIntoView({ behavior: 'smooth' });
+        const element = document.getElementById('featured-products');
+        if (element) {
+            window.scrollTo({
+                top: element.offsetTop,
+                behavior: 'smooth'
+            });
         }
     };
+    
 
     return (
         <div>
@@ -59,7 +56,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div ref={featuredProductsRef} className='container mx-auto py-16'>
+            <div id="featured-products" className='container mx-auto py-16'>
                 <div className='flex flex-col items-center mb-10'>
                     <div className='text-3xl font-bold mb-4'>Featured Products</div>
                     <div className='w-32 h-1 bg-black mb-8'></div>
