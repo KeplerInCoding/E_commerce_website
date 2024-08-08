@@ -16,7 +16,7 @@ function App() {
     });
   }, []);
   return (
-    <div className="">
+    <div className=" bg-gray-200">
       <Navbar/>
       
 
