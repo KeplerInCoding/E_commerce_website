@@ -2,26 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel'; 
 import { useSelector, useDispatch } from "react-redux";
 import Metadata from '../components/Metadata';
-import { clearErrors, getProductDetails } from "../actions/ProductAction";
+import { clearErrors, getProductDetails, newReview } from "../actions/ProductAction";
 import Spinner from '../components/Spinner';
 import { Rating } from "@mui/material";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from "@mui/material";
 import { useSnackbar } from 'notistack';
+import { useParams } from 'react-router-dom'; 
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { addToCart } from '../actions/CartAction';
+import ReviewCard from '../components/ReviewCard';
+import ReviewDialog from '../components/ReviewDialog';
+import "../index.css"
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = () => {
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
+    const [quantity, setQuantity] = useState(1);
 
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
-    
+
+    const { id } = useParams(); // Destructure id from useParams
     const { product, loading, error } = useSelector(state => state.productDetails);
     const { success, error: reviewError } = useSelector(state => state.newReview);
 
     useEffect(() => {
-        dispatch(getProductDetails(match.params.id));
+        dispatch(getProductDetails(id));
 
         if (error) {
             enqueueSnackbar(error, { variant: 'error' });
@@ -39,11 +46,29 @@ const ProductDetails = ({ match }) => {
             setOpen(false);
             dispatch({ type: NEW_REVIEW_RESET });
         }
-    }, [dispatch, match.params.id, error, reviewError, success, enqueueSnackbar]);
+    }, [dispatch, id, error, reviewError, success, enqueueSnackbar]);
 
     const handleSubmitReview = () => {
-        const reviewData = { rating, comment, productId: match.params.id };
+        const reviewData = { rating, comment, productId: id };
         dispatch(newReview(reviewData));
+    };
+
+
+    const increaseQuantity = () => {
+        if (quantity < product.stock) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const decreaseQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
+
+    const addToCartHandler = () => {
+        dispatch(addToCart(product._id, quantity));
+        enqueueSnackbar("Added to cart", { variant: 'success' });
     };
 
     const handleOpen = () => setOpen(true);
@@ -52,70 +77,89 @@ const ProductDetails = ({ match }) => {
     if (loading) return <Spinner />;
     
     return (
-        <div>
+        <div className='pt-12'>
             <Metadata title={`${product.name} - Product Details`} />
             <div className="container mx-auto py-8">
                 <div className="flex flex-col md:flex-row">
+
+
                     <div className="w-full md:w-1/2">
-                        <Carousel>
+                        <Carousel showArrows={true} showThumbs={true} showIndicators={true} dynamicHeight={true}>
                             {product.images && product.images.map((image, i) => (
-                                <img key={i} src={image.url} alt={`${product.name} - ${i}`} className="w-full h-[400px] object-cover" />
+                                <div key={i}>
+                                    <img src={image.url} alt={`${product.name} - ${i}`} className="w-full h-[400px] object-cover" />
+                                </div>
                             ))}
                         </Carousel>
                     </div>
-                    <div className="w-full md:w-1/2 md:pl-8">
+
+
+                    <div className="w-full md:w-1/2 md:pl-20 px-10 md:px-0">
                         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-                        <p className="text-lg mb-4">{product.description}</p>
-                        <div className="flex items-center mb-4">
+                        <p className='text-sm text-gray-600 mb-2'>ID: {product._id}</p>
+                        <div className='w-full h-[0.5px] bg-white'></div>
+                        <p className=" my-4">{product.description}</p>
+
+                        {/* rating  */}
+
+                        <div className="flex items-center mb-8">
                             <Rating value={product.ratings} readOnly precision={0.5} />
                             <span className="ml-2">({product.numOfReviews} Reviews)</span>
                         </div>
-                        <p className="text-xl font-semibold mb-4">₹{product.price}</p>
-                        <p className={`text-lg ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                        </p>
-                        <button
-                            className={`mt-4 px-6 py-2 text-white ${product.stock > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
-                            disabled={product.stock === 0}
-                            onClick={handleOpen}
-                        >
-                            Submit Review
-                        </button>
+                        <div className='w-full h-[0.5px] bg-white'></div>
+
+                        <div className='flex justify-center items-center gap-10'>
+                            <p className="text-xl font-semibold ">₹{product.price}</p>
+                            <p className={`text-lg ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                            </p>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="quantity-container flex items-center justify-center my-4">
+                            <button onClick={decreaseQuantity} className="quantity-btn px-3 py-1 bg-white border-1 font-extrabold text-xl text-gray-800 rounded">-</button>
+                            <span className="quantity-display mx-4 text-lg">{quantity}</span>
+                            <button onClick={increaseQuantity} className="quantity-btn px-3 py-1 bg-white border-1 font-extrabold text-xl text-gray-800 rounded">+</button>
+                        </div>
+
+                        <div className='flex justify-center items-center my-5 gap-3'>
+
+                            {/* Add to Cart Button */}
+                            <button
+                                onClick={addToCartHandler}
+                                className={`px-6 py-2 text-white rounded-md ${product.stock > 0 ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
+                                disabled={product.stock === 0}
+                            >
+                                Add to Cart
+                            </button>
+                            <br/>
+
+                            {/* review products  */}
+
+                            <button
+                                className="px-6 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md"
+                                onClick={handleOpen}
+                            >
+                                Submit Review
+                            </button>
+
+                        </div>
+                        
+                        <div className='w-full h-[0.5px] bg-white'></div>
+
+                        <ReviewCard reviews={product.reviews} />
                     </div>
                 </div>
 
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Submit Review</DialogTitle>
-                    <DialogContent>
-                        <div className="mb-4">
-                            <Rating
-                                name="rating"
-                                value={rating}
-                                onChange={(e, newValue) => setRating(newValue)}
-                                precision={0.5}
-                            />
-                        </div>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            label="Comment"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleSubmitReview} color="primary">
-                            Submit
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <ReviewDialog
+                    open={open}
+                    handleClose={handleClose}
+                    rating={rating}
+                    setRating={setRating}
+                    comment={comment}
+                    setComment={setComment}
+                    handleSubmitReview={handleSubmitReview}
+                />
             </div>
         </div>
     );

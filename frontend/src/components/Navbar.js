@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../images/Logo.png';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -17,13 +18,13 @@ const Navbar = () => {
           </div>
         </div>
         <div className='gap-4 flex-shrink-0 hidden md:flex font-semibold'>
-          <div className='hover:text-blue-900'>HOME</div>
+          <NavLink to='/' className={({ isActive }) => isActive ? "font-bold" : ""}><div><div className='hover:text-blue-900'>HOME</div></div></NavLink>
           <div className='hover:text-blue-900'>PRODUCT</div>
           <div className='hover:text-blue-900'>CONTACT</div>
           <div className='hover:text-blue-900'>ABOUT</div>
         </div>
         <div className='flex gap-4'>
-          <div><i className="fa-solid fa-magnifying-glass hover:text-blue-900"></i></div>
+          <NavLink to='/search' className={({ isActive }) => isActive ? "text-blue-900" : ""}><div><i className="fa-solid fa-magnifying-glass hover:text-blue-900"></i></div></NavLink>
           <div><i className="fa-solid fa-cart-shopping hover:text-blue-900"></i></div>
           <div><i className="fa-solid fa-user hover:text-blue-900"></i></div>
         </div>

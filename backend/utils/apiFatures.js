@@ -11,7 +11,7 @@ class ApiFeatures{
                 $options: 'i',
             }
         } : {};
-        console.log(keyword);
+        // console.log(keyword);
         this.query = this.query.find({...keyword});
         return this;
 
@@ -19,11 +19,11 @@ class ApiFeatures{
 
     filter() {
         const queryCopy = { ...this.queryStr };
-        console.log(queryCopy);
+        // console.log(queryCopy);
 
         // Removing some fields for category
         const removeFields = ['keyword', 'page', 'limit'];
-        console.log(queryCopy);
+        // console.log(queryCopy);
 
         removeFields.forEach(key => delete queryCopy[key]);
 

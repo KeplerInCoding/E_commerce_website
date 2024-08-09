@@ -6,6 +6,7 @@ import Footer from "./components/footer/Footer";
 import {Route, Routes} from 'react-router-dom';
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import Search from "./pages/Search";
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
     });
   }, []);
   return (
-    <div className=" bg-gray-200">
+    <div className=" bg-gray-300">
       <Navbar/>
       
 
@@ -25,12 +26,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}></Route>
         <Route path="/product/:id" element={<ProductDetails/>}></Route>
-        <Route path="/chatbot" element={<Home/>}></Route>
+        <Route path="/search" element={<Search/>}></Route>
         <Route path="/explore" element={<Home/>}></Route>
       </Routes>
 
 
-      <Footer/>
+      {location.pathname !== '/search' && <Footer />}
     </div>
   );
 }
