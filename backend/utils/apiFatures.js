@@ -3,7 +3,8 @@ class ApiFeatures{
         this.query = query;
         this.queryStr = queryStr;
     }
-    search(){ 
+
+    search() { 
         const keyword = this.queryStr.keyword ? 
         {
             name: {
@@ -11,10 +12,9 @@ class ApiFeatures{
                 $options: 'i',
             }
         } : {};
-        // console.log(keyword);
+    
         this.query = this.query.find({...keyword});
         return this;
-
     }
 
     filter() {

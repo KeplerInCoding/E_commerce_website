@@ -127,7 +127,7 @@ const ProductDetails = () => {
                             {/* Add to Cart Button */}
                             <button
                                 onClick={addToCartHandler}
-                                className={`px-6 py-2 text-white rounded-md ${product.stock > 0 ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
+                                className={`px-6 py-2 text-white rounded-md ${product.stock > 0 ? 'bg-blue-900 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'}`}
                                 disabled={product.stock === 0}
                             >
                                 Add to Cart
@@ -137,7 +137,7 @@ const ProductDetails = () => {
                             {/* review products  */}
 
                             <button
-                                className="px-6 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md"
+                                className="px-6 py-2 text-white bg-blue-900 hover:bg-blue-600 rounded-md"
                                 onClick={handleOpen}
                             >
                                 Submit Review

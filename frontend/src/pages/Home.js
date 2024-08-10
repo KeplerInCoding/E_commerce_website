@@ -63,7 +63,7 @@ const Home = () => {
                 </div>
 
                 {loading ? (
-                    <div className='w-full h-[100vh] flex items-center justify-center'>
+                    <div>
                         <Spinner/>
                     </div>
                     

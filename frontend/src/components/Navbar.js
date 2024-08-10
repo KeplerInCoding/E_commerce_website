@@ -14,7 +14,7 @@ const Navbar = () => {
       <div className='h-16 z-20 w-screen fixed flex place-content-evenly items-center backdrop-blur-lg'>
         <div className='flex items-center'>
           <div className='flex-shrink-0'>
-            <img src={logo} alt="logo" width="200px" />
+            <NavLink to='/'><img src={logo} alt="logo" width="200px" /></NavLink>
           </div>
         </div>
         <div className='gap-4 flex-shrink-0 hidden md:flex font-semibold'>
