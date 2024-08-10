@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import bgimg from "../images/cover.jfif";
 import "../index.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getProduct } from '../actions/ProductAction';
+import { useSnackbar } from 'notistack';
+import Pagination from '@mui/material/Pagination';
+import { getProduct, clearErrors } from '../actions/ProductAction';
 import Metadata from '../components/Metadata';
 import ProductCard from '../components/ProductCard';
 import Spinner from '../components/Spinner';
@@ -10,10 +12,17 @@ import Spinner from '../components/Spinner';
 const Home = () => {
     const dispatch = useDispatch();
     const { loading, error, products, productsCount } = useSelector(state => state.products);
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         dispatch(getProduct());
-    }, [dispatch]);
+
+        if (error) {
+            enqueueSnackbar(error, { variant: 'error' });
+            dispatch(clearErrors());
+        }
+
+    }, [dispatch, error]);
 
     // Scroll to the featured products section
     const scrollToFeaturedProducts = () => {

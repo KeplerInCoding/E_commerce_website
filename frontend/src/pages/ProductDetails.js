@@ -147,9 +147,11 @@ const ProductDetails = () => {
                         
                         <div className='w-full h-[0.5px] bg-white'></div>
 
-                        <ReviewCard reviews={product.reviews} />
+                        
                     </div>
+                    
                 </div>
+                <ReviewCard reviews={product.reviews} />
 
                 <ReviewDialog
                     open={open}

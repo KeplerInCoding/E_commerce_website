@@ -19,7 +19,8 @@ const Navbar = () => {
         </div>
         <div className='gap-4 flex-shrink-0 hidden md:flex font-semibold'>
           <NavLink to='/' className={({ isActive }) => isActive ? "font-bold" : ""}><div><div className='hover:text-blue-900'>HOME</div></div></NavLink>
-          <div className='hover:text-blue-900'>PRODUCT</div>
+          <NavLink to='/products' className={({ isActive }) => isActive ? "font-bold" : ""}><div className='hover:text-blue-900'>PRODUCTS</div></NavLink>
+          
           <div className='hover:text-blue-900'>CONTACT</div>
           <div className='hover:text-blue-900'>ABOUT</div>
         </div>
