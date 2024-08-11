@@ -27,7 +27,9 @@ const Navbar = () => {
         <div className='flex gap-4'>
           <NavLink to='/search' className={({ isActive }) => isActive ? "text-blue-900" : ""}><div><i className="fa-solid fa-magnifying-glass hover:text-blue-900"></i></div></NavLink>
           <div><i className="fa-solid fa-cart-shopping hover:text-blue-900"></i></div>
-          <div><i className="fa-solid fa-user hover:text-blue-900"></i></div>
+          <NavLink to='/login-signup' className={({ isActive }) => isActive ? "text-blue-900" : ""}><div><i className="fa-solid fa-user hover:text-blue-900"></i></div></NavLink>
+          
+          
         </div>
 
         <div className='md:hidden'>

@@ -23,9 +23,15 @@ class ApiFeatures{
 
         // Removing some fields for category
         const removeFields = ['keyword', 'page', 'limit'];
-        // console.log(queryCopy);
+        // console.log("Query Copy before filtering:",queryCopy);
 
         removeFields.forEach(key => delete queryCopy[key]);
+
+            // Adding category filter if present
+        if (queryCopy.category) {
+            // console.log("Category Filter Applied:", queryCopy.category);
+            this.query = this.query.find({ category: queryCopy.category });
+        }
 
         //this.query means Product.find();
 

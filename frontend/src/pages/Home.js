@@ -3,7 +3,6 @@ import bgimg from "../images/cover.jfif";
 import "../index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useSnackbar } from 'notistack';
-import Pagination from '@mui/material/Pagination';
 import { getProduct, clearErrors } from '../actions/ProductAction';
 import Metadata from '../components/Metadata';
 import ProductCard from '../components/ProductCard';

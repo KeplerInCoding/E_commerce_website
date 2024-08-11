@@ -7,34 +7,46 @@ import ProductCard from '../components/ProductCard';
 import { useSnackbar } from 'notistack';
 import Spinner from '../components/Spinner';
 import Metadata from '../components/Metadata';
+import ProductFilters from '../components/ProductFilters';
 
 const Products = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search); // Access the query string
-    const keyword = searchParams.get('keyword') || ''; // Get the `keyword` query parameter
+    const searchParams = new URLSearchParams(location.search); 
+    const keyword = searchParams.get('keyword') || ''; 
     const { products, loading, error, productsCount } = useSelector(state => state.products);
     const { enqueueSnackbar } = useSnackbar();
 
     const [page, setPage] = useState(1);
+    const [priceRange, setPriceRange] = useState([0, 50000]);
+    const [category, setCategory] = useState('');
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
-        dispatch(getProduct(keyword, page)); 
+        dispatch(getProduct(keyword, page, priceRange, category, rating));
 
         if (error) {
             enqueueSnackbar(error, { variant: 'error' });
             dispatch(clearErrors());
         }
 
-    }, [dispatch, keyword, page, error]);
+    }, [dispatch, keyword, page, priceRange, category, rating, error]);
 
     const handlePageChange = (event, value) => {
         setPage(value);
     };
 
     return (
-        <div className="w-screen py-20 min-h-[100vh] flex flex-col justify-center items-center">
+        <div className="w-full py-20 min-h-[100vh] flex flex-col items-center">
             <Metadata title={"Flipzone - products"} />
+            <ProductFilters 
+                priceRange={priceRange} 
+                setPriceRange={setPriceRange} 
+                category={category} 
+                setCategory={setCategory} 
+                rating={rating} 
+                setRating={setRating} 
+            />
             {loading ? (
                 <Spinner />
             ) : (
@@ -51,12 +63,12 @@ const Products = () => {
                         )}
                     </div>
                     <div className="flex justify-center mt-8">
-                        <Pagination
-                            count={Math.ceil(productsCount / 9)}
+                        {productsCount>9 && <Pagination
+                            count={Math.ceil(productsCount / 9) || 1}
                             page={page}
                             onChange={handlePageChange}
                             color="primary"
-                        />
+                        />}
                     </div>
                 </>
             )}

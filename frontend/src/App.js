@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Search from "./pages/Search";
 import Products from "./pages/Products";
+import LoginSignup from "./pages/LoginSignup";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products/:keyword?" element={<Products />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/login-signup" element={<LoginSignup />} />
       </Routes>
 
 

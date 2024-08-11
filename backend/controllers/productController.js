@@ -15,24 +15,29 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get all products
+// Get all products
 exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
     const resultPerPage = 9;
-    const productsCount = await Product.countDocuments();
-    console.log("req query:", req.query);
+
+    // Initialize ApiFeatures instance with search and filter but do not execute the query yet
     const apiFeature = new ApiFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-    .pagination(resultPerPage);
-    console.log("API query:", apiFeature.query.getQuery()); // Debugging line
+        .search()
+        .filter();
+
+    // Count the number of filtered products without executing the query
+    const filteredProductsCount = await apiFeature.query.clone().countDocuments();
+
+    // Now apply pagination and execute the query
+    apiFeature.pagination(resultPerPage);
     const products = await apiFeature.query;
-    console.log("Products returned:", products);
 
     res.status(200).json({
         success: true,
         products,
-        productsCount,
+        productsCount: filteredProductsCount, // Total number of filtered products
     });
 });
+
 
 // Update product ---admin
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
