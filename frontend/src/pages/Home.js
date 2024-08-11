@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import bgimg from "../images/cover.jfif";
-import "../index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useSnackbar } from 'notistack';
 import { getProduct, clearErrors } from '../actions/ProductAction';
@@ -10,7 +9,7 @@ import Spinner from '../components/Spinner';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, error, products, productsCount } = useSelector(state => state.products);
+    const { loading, error, products } = useSelector(state => state.products);
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {

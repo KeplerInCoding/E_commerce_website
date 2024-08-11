@@ -1,18 +1,20 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
-import "./LoginSignUp.css";
 import Spinner from "../components/Spinner";
+import "./LoginSignup.css";
 import { Link } from "react-router-dom";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import FaceIcon from "@material-ui/icons/Face";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from "react-redux";
-// import { clearErrors, login, register } '../actions/UserAction';
+import { clearErrors, login, register } from '../actions/UserAction';
 import { useSnackbar } from 'notistack';
 import Metadata from '../components/Metadata';
 
 const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
+  const navigate = useNavigate(); 
 
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
@@ -103,6 +105,7 @@ const LoginSignUp = ({ history, location }) => {
 
   return (
     <Fragment>
+    <Metadata title={"Login/signup"} />
       {loading ? (
         <Spinner />
       ) : (

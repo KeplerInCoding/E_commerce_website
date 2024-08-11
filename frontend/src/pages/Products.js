@@ -38,7 +38,7 @@ const Products = () => {
 
     return (
         <div className="w-full py-20 min-h-[100vh] flex flex-col items-center">
-            <Metadata title={"Flipzone - products"} />
+            <Metadata title={"Products"} />
             <ProductFilters 
                 priceRange={priceRange} 
                 setPriceRange={setPriceRange} 

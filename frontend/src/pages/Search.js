@@ -20,7 +20,7 @@ const Search = () => {
 
     return (
         <div className='px-3'>
-            <Metadata title={"Flipzone - search"} />
+            <Metadata title={"Search"} />
             <form onSubmit={searchHandler} className=" h-[100vh] flex justify-center items-center">
                 <input
                     type="text"
