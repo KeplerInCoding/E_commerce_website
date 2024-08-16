@@ -1,15 +1,14 @@
-import React, { Fragment, useState } from "react";
-import { SpeedDial, SpeedDialAction } from "@mui/material";
-import Backdrop from "@mui/material/Backdrop";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { logout } from "../actions/UserAction";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { logout } from "../actions/UserAction";
-import { useDispatch, useSelector } from "react-redux";
+import profile from '../images/Profile.png';
 
 const UserOptions = ({ user }) => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -60,35 +59,29 @@ const UserOptions = ({ user }) => {
   }
 
   return (
-    <Fragment>
-      <Backdrop open={open} style={{ zIndex: "10" }} />
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        style={{ zIndex: "11" }}
-        open={open}
-        direction="down"
-        className="speedDial"
-        icon={
-          <img
-            className="speedDialIcon"
-            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
-            alt="Profile"
-          />
-        }
-      >
-        {options.map((item) => (
-          <SpeedDialAction
-            key={item.name}
-            icon={item.icon}
-            tooltipTitle={item.name}
-            onClick={item.func}
-            tooltipOpen={window.innerWidth <= 600 ? true : false}
-          />
-        ))}
-      </SpeedDial>
-    </Fragment>
+    <div className="relative">
+      <button onClick={() => setOpen(!open)} >
+        <img
+          className="w-12 h-12 rounded-full"
+          src={user.avatar.url ? user.avatar.url : profile}
+          alt="Profile"
+        />
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+          {options.map((item) => (
+            <div
+              key={item.name}
+              className="flex items-center p-2 hover:bg-gray-200 cursor-pointer"
+              onClick={item.func}
+            >
+              {item.icon}
+              <span className="ml-2">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -4,14 +4,26 @@ import { NavLink } from 'react-router-dom';
 import UserOptions from './UserOptions'; // Import UserOptions
 import { loadUser } from "../actions/UserAction";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import Spinner from './Spinner';
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div><Spinner/></div>;
+  }
 
   return (
     <div className='w-screen'>
@@ -45,8 +57,8 @@ const Navbar = () => {
           <NavLink to='/login-signup' className={({ isActive }) => isActive ? "text-blue-900" : ""}>
             <div><i className="fa-solid fa-user hover:text-blue-900"></i></div>
           </NavLink>
-          {/* {isAuthenticated && <UserOptions user={user} />} UserOptions added */}
         </div>
+        <div>{isAuthenticated && user && <UserOptions user={user} />} </div>
 
         <div className='md:hidden'>
           <button onClick={toggleMenu} className="transition-transform duration-300 ease-in-out">
