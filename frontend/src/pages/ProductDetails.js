@@ -36,7 +36,7 @@ const ProductDetails = () => {
         }
 
         if (reviewError) {
-            enqueueSnackbar(reviewError, { variant: 'error' });
+            enqueueSnackbar(reviewError, { variant: 'error' , autoHideDuration: 3000 });
             dispatch(clearErrors());
         }
 

@@ -16,7 +16,7 @@ const Home = () => {
         dispatch(getProduct());
 
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error' , autoHideDuration: 3000 });
             dispatch(clearErrors());
         }
 

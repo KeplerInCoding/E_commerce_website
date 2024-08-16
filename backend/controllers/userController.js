@@ -5,24 +5,71 @@ const Product = require("../models/productModel");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const cloudinary = require('cloudinary');
 
 
 // Register a user
+
+// exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+//       folder: "Avatars",
+//       width: 150,
+//       crop: "scale",
+//     });
+
+//     const { name, email, password } = req.body;
+
+//     const user = await User.create({
+//       name,
+//       email,
+//       password,
+//       avatar: {
+//         public_id: myCloud.public_id,
+//         url: myCloud.secure_url,
+//       },
+//     });
+
+//     sendToken(user, 201, res);
+//   } catch (error) {
+//     console.error("Error during user registration:", error.message);
+//     res.status(500).json({
+//       success: false,
+//       message: "Internal Server Error. Please try again later.",
+//     });
+//   }
+// });
+
+
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-    const { name, email, password } = req.body;
-
-    const user = await User.create({
-        name,
-        email,
-        password,
-        avatar: {
-            public_id: "sample_id", // Replace with actual logic for handling avatars
-            url: "sample_url" // Replace with actual logic for handling avatars
-        }
+    if (!req.files || !req.files.avatar) {
+      return next(new ErrorHandler("No file uploaded", 400));
+    }
+  
+    const file = req.files.avatar;
+  
+    // Upload the file to Cloudinary
+    const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
+      folder: "Avatars",
+      width: 150,
+      crop: "scale",
     });
-
+  
+    const { name, email, password } = req.body;
+  
+    const user = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: myCloud.public_id, 
+        url: myCloud.secure_url,
+      }
+    });
+  
     sendToken(user, 201, res);
-});
+  });
+  
 
 // Login user
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {

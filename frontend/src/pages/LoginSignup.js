@@ -1,21 +1,22 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
-import Spinner from "../components/Spinner";
-import "./LoginSignup.css";
-import { Link } from "react-router-dom";
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import FaceIcon from '@mui/icons-material/Face';
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Import useLocation and useNavigate
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from '../actions/UserAction';
 import { useSnackbar } from 'notistack';
+import Spinner from "../components/Spinner";
 import Metadata from '../components/Metadata';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import FaceIcon from '@mui/icons-material/Face';
+import "./LoginSignup.css";
+import profile from '../images/Profile.png';
 
-const LoginSignUp = ({ history, location }) => {
+const LoginSignUp = () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const location = useLocation();
+  const location = useLocation(); 
   const navigate = useNavigate(); 
-
+  
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
@@ -35,8 +36,8 @@ const LoginSignUp = ({ history, location }) => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState(profile);
+  const [avatarPreview, setAvatarPreview] = useState(profile);
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -47,57 +48,60 @@ const LoginSignUp = ({ history, location }) => {
     e.preventDefault();
 
     const myForm = new FormData();
-
     myForm.set("name", name);
     myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
+    myForm.set("password", password); 
+
+    if (avatar instanceof File) {
+      myForm.append("avatar", avatar);
+    } else {
+      console.error("Avatar is not a valid file.");
+    }
+  
     dispatch(register(myForm));
   };
 
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
+      const file = e.target.files[0];
+      if (file) {
+        setAvatar(file); // Store the file object
+        const reader = new FileReader();
+        reader.onload = () => {
+          setAvatarPreview(reader.result); // Set the preview
+        };
+        reader.readAsDataURL(file);
+      }
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+  
 
   const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
-
     if (error) {
-        enqueueSnackbar(error, { variant: 'error' });
-        dispatch(clearErrors());
+      enqueueSnackbar(error, { variant: 'error' , autoHideDuration: 3000 });
+      dispatch(clearErrors());
     }
 
     if (isAuthenticated) {
-      history.push(redirect);
+      enqueueSnackbar("You are logged in", { variant: 'success' , autoHideDuration:3000 });
+      navigate(redirect);
     }
-  }, [dispatch, error, history, isAuthenticated, redirect]);
+  }, [dispatch, error, isAuthenticated, navigate, redirect]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
       switcherTab.current.classList.add("shiftToNeutral");
       switcherTab.current.classList.remove("shiftToRight");
-
       registerTab.current.classList.remove("shiftToNeutralForm");
       loginTab.current.classList.remove("shiftToLeft");
     }
     if (tab === "register") {
       switcherTab.current.classList.add("shiftToRight");
       switcherTab.current.classList.remove("shiftToNeutral");
-
       registerTab.current.classList.add("shiftToNeutralForm");
       loginTab.current.classList.add("shiftToLeft");
     }
@@ -105,7 +109,7 @@ const LoginSignUp = ({ history, location }) => {
 
   return (
     <Fragment>
-    <Metadata title={"Login/signup"} />
+      <Metadata title={"Login/Signup"} />
       {loading ? (
         <Spinner />
       ) : (
@@ -140,7 +144,7 @@ const LoginSignUp = ({ history, location }) => {
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
                 </div>
-                <Link to="/password/forgot">Forget Password ?</Link>
+                <Link to="/password/forgot">Forget Password?</Link>
                 <input type="submit" value="Login" className="loginBtn" />
               </form>
               <form
@@ -182,7 +186,6 @@ const LoginSignUp = ({ history, location }) => {
                     onChange={registerDataChange}
                   />
                 </div>
-
                 <div id="registerImage">
                   <img src={avatarPreview} alt="Avatar Preview" />
                   <input

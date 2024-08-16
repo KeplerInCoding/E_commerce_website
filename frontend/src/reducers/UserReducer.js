@@ -1,3 +1,4 @@
+//takes state and action as input, and basd on action, gives output state
 import {
     LOGIN_REQUEST,
     LOGIN_FAIL,
