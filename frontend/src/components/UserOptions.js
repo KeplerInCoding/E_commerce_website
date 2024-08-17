@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 import { logout } from "../actions/UserAction";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,14 +12,15 @@ import profile from '../images/Profile.png';
 
 const UserOptions = ({ user }) => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const options = [
-    { icon: <ListAltIcon />, name: "Orders", func: orders },
     { icon: <PersonIcon />, name: "Profile", func: account },
+    { icon: <ListAltIcon />, name: "Orders", func: orders },
     {
       icon: (
         <ShoppingCartIcon
@@ -55,7 +56,7 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
-    toast.success("Logout Successfully");
+    enqueueSnackbar("Logout Successfully", { variant: 'success' });
   }
 
   return (
@@ -73,7 +74,10 @@ const UserOptions = ({ user }) => {
             <div
               key={item.name}
               className="flex items-center p-2 hover:bg-gray-200 cursor-pointer"
-              onClick={item.func}
+              onClick={() => {
+                item.func(); 
+                setOpen(!open);
+              }}
             >
               {item.icon}
               <span className="ml-2">{item.name}</span>

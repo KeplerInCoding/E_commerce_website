@@ -10,37 +10,6 @@ const cloudinary = require('cloudinary');
 
 // Register a user
 
-// exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-//   try {
-//     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-//       folder: "Avatars",
-//       width: 150,
-//       crop: "scale",
-//     });
-
-//     const { name, email, password } = req.body;
-
-//     const user = await User.create({
-//       name,
-//       email,
-//       password,
-//       avatar: {
-//         public_id: myCloud.public_id,
-//         url: myCloud.secure_url,
-//       },
-//     });
-
-//     sendToken(user, 201, res);
-//   } catch (error) {
-//     console.error("Error during user registration:", error.message);
-//     res.status(500).json({
-//       success: false,
-//       message: "Internal Server Error. Please try again later.",
-//     });
-//   }
-// });
-
-
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     if (!req.files || !req.files.avatar) {
       return next(new ErrorHandler("No file uploaded", 400));
@@ -191,44 +160,77 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 
 // Update user password
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-    const user = await User.findById(req.user.id).select("+password");
+    try{
+        // console.log("Request Body:", req.body);
+        const user = await User.findById(req.user.id).select("+password");
 
-    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
-    if (!isPasswordMatched) {
-        return next(new ErrorHandler("Old password is incorrect", 400));
+        if (!isPasswordMatched) {
+            return next(new ErrorHandler("Old password is incorrect", 400));
+        }
+
+        // if (req.body.newPassword !== req.body.confirmPassword) {
+        //     return next(new ErrorHandler("Password does not match", 400));
+        // }
+
+        user.password = req.body.newPassword;
+
+        await user.save();
+
+        sendToken(user, 200, res);
+
     }
-
-    if (req.body.newPassword !== req.body.confirmPassword) {
-        return next(new ErrorHandler("Password does not match", 400));
+    catch (error) {
+        // console.error(error.message);
+        res.status(400).json({ success: false, message: error.message });
     }
-
-    user.password = req.body.newPassword;
-
-    await user.save();
-
-    sendToken(user, 200, res);
 });
 
 // Update user profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const newUserData = {
-        name: req.body.name,
-        email: req.body.email,
-    };
-
-    // You can add logic to update avatar here---cloudinary
-
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-    });
-
-    res.status(200).json({
-        success: true,
-    });
+    try {
+        const newUserData = {
+            name: req.body.name,
+            email: req.body.email,
+        };
+    
+        if (req.files && req.files.avatar) {
+            const file = req.files.avatar;
+            // Upload the new avatar to Cloudinary
+            const myCloud = await cloudinary.uploader.upload(file.tempFilePath, {
+                folder: "Avatars",
+                width: 150,
+                crop: "scale",
+            });
+    
+            // Update new avatar info
+            newUserData.avatar = {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            };
+    
+            // Optionally, delete the old avatar from Cloudinary
+            // await cloudinary.uploader.destroy(oldUser.avatar.public_id);
+        }
+    
+        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+    
+        res.status(200).json({
+            success: true,
+            user,
+        });
+      } catch (error) {
+        console.error('Error updating profile:', error); // Log the error
+        return next(new ErrorHandler('Internal Server Error', 500));
+      }
+    
 });
+
 
 // Get all users (admin)
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {

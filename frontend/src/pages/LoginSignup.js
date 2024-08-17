@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Import useLocation and useNavigate
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, login, register } from '../actions/UserAction';
+import { clearErrors, login, register, loadUser } from '../actions/UserAction';
 import { useSnackbar } from 'notistack';
 import Spinner from "../components/Spinner";
 import Metadata from '../components/Metadata';
@@ -14,12 +14,14 @@ import profile from '../images/Profile.png';
 const LoginSignUp = () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const location = useLocation(); 
-  const navigate = useNavigate(); 
-  
-  const { error, loading, isAuthenticated } = useSelector(
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { error, loading, isAuthenticated, user } = useSelector(
     (state) => state.user
   );
+
+  const [hasAuthenticated, setHasAuthenticated] = useState(false);
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -28,69 +30,84 @@ const LoginSignUp = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  const [user, setUser] = useState({
+  const [newUser, setNewUser] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const { name, email, password } = user;
+  const { name, email, password } = newUser;
 
   const [avatar, setAvatar] = useState(profile);
   const [avatarPreview, setAvatarPreview] = useState(profile);
 
-  const loginSubmit = (e) => {
+  const loginSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(loginEmail, loginPassword));
+    
+    try {
+      await dispatch(login(loginEmail, loginPassword));
+      enqueueSnackbar('Login successful', { variant: 'success' });
+    } catch (error) {
+      console.error("Login Error:", error.response?.data);
+      enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error' });
+    }
   };
 
-  const registerSubmit = (e) => {
+  const registerSubmit = async (e) => {
     e.preventDefault();
 
     const myForm = new FormData();
     myForm.set("name", name);
     myForm.set("email", email);
-    myForm.set("password", password); 
+    myForm.set("password", password);
 
     if (avatar instanceof File) {
       myForm.append("avatar", avatar);
     } else {
       console.error("Avatar is not a valid file.");
     }
-  
-    dispatch(register(myForm));
+
+    try {
+      await dispatch(register(myForm));
+      enqueueSnackbar('Registration successful', { variant: 'success' });
+    } catch (error) {
+      console.error("Registration Error:", error.response?.data);
+      enqueueSnackbar(error.response?.data?.message || 'Registration failed', { variant: 'error' });
+    }
   };
 
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
       const file = e.target.files[0];
       if (file) {
-        setAvatar(file); // Store the file object
+        setAvatar(file);
         const reader = new FileReader();
         reader.onload = () => {
-          setAvatarPreview(reader.result); // Set the preview
+          setAvatarPreview(reader.result);
         };
         reader.readAsDataURL(file);
       }
     } else {
-      setUser({ ...user, [e.target.name]: e.target.value });
+      setNewUser({ ...newUser, [e.target.name]: e.target.value });
     }
   };
-  
 
   const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
     if (error) {
-      enqueueSnackbar(error, { variant: 'error' , autoHideDuration: 3000 });
+      enqueueSnackbar(error, { variant: 'error', autoHideDuration: 3000 });
       dispatch(clearErrors());
     }
 
-    if (isAuthenticated) {
-      enqueueSnackbar("You are logged in", { variant: 'success' , autoHideDuration:3000 });
+    // Only show success message the first time the user is authenticated
+    if (isAuthenticated && !hasAuthenticated) {
+      // enqueueSnackbar("Logged in successfully", { variant: 'success', autoHideDuration: 3000 });
+      setHasAuthenticated(true);
+      dispatch(loadUser());
       navigate(redirect);
     }
-  }, [dispatch, error, isAuthenticated, navigate, redirect]);
+  }, [dispatch, error, isAuthenticated, navigate, redirect, enqueueSnackbar]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

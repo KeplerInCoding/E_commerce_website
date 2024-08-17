@@ -50,7 +50,7 @@ import {
         { email, password },
         config
       );
-  
+      
       dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     } catch (error) {
       dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
@@ -119,24 +119,23 @@ import {
   };
   
   // Update Password
-  export const updatePassword = (passwords) => async (dispatch) => {
+  export const updatePassword = (passwordData) => async (dispatch) => {
     try {
-      dispatch({ type: UPDATE_PASSWORD_REQUEST });
+      const config = { headers: { 'Content-Type': 'application/json' } };
   
-      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put('/api/v1/password/update', passwordData, config);
   
-      const { data } = await axios.put(
-        `/api/v1/password/update`,
-        passwords,
-        config
-      );
-  
-      dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
+      if (data.success) {
+        dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
+      } else {
+        throw new Error(data.message); // Throw an error if success is false
+      }
     } catch (error) {
       dispatch({
         type: UPDATE_PASSWORD_FAIL,
-        payload: error.response.data.message,
+        payload: error.response?.data?.message || error.message,
       });
+      throw error; // Re-throw the error so it can be caught in the component
     }
   };
   
