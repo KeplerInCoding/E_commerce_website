@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { updatePassword } from '../actions/UserAction'; // Update with your action creator
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockIcon from "@mui/icons-material/Lock";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
@@ -31,33 +34,42 @@ const ChangePassword = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4 w-80 ">
-        <label htmlFor="oldPassword" className="block text-gray-700">Current Password</label>
+        <div className='flex gap-2 text-gray-700'>
+        <VpnKeyIcon />
+        <label htmlFor="newPassword" className="block text-gray-700 text-sm">Current Password</label>
+        </div>
         <input
           type="password"
           id="oldPassword"
-          className="w-full px-3 py-2 focus:outline-none border border-gray-500 rounded-lg"
+          className="w-full px-3 py-2 focus:outline-none border border-gray-500"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="newPassword" className="block text-gray-700">New Password</label>
+        <div className='flex gap-2 text-gray-700'>
+        <LockOpenIcon />
+        <label htmlFor="newPassword" className="block text-gray-700 text-sm">New Password</label>
+        </div>
         <input
           type="password"
           id="newPassword"
-          className="w-full px-3 py-2 focus:outline-none border border-gray-500 rounded-lg"
+          className="w-full px-3 py-2 focus:outline-none border border-gray-500 "
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="confirmPassword" className="block text-gray-700">Confirm New Password</label>
+        <div className='flex gap-2 text-gray-700'>
+        <LockIcon />
+        <label htmlFor="newPassword" className="block text-gray-700 text-sm">Confirm New Password</label>
+        </div>
         <input
           type="password"
           id="confirmPassword"
-          className="w-full px-3 py-2 focus:outline-none border border-gray-500 rounded-lg"
+          className="w-full px-3 py-2 focus:outline-none border border-gray-500"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
@@ -67,7 +79,7 @@ const ChangePassword = () => {
         type="submit"
         className="py-2 px-4 bg-blue-900 hover:bg-blue-600 w-full text-white rounded-lg"
       >
-        Update Password
+        DONE
       </button>
     </form>
   );

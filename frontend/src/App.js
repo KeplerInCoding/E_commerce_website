@@ -11,6 +11,7 @@ import Products from "./pages/Products";
 import LoginSignup from "./pages/LoginSignup";
 import Profile from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
 
@@ -34,8 +35,8 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/login-signup" element={<LoginSignup />} />
           
-          <Route path="/account" element={<ProtectedRoutes element={Profile} />}
-        />
+          <Route path="/account" element={<ProtectedRoutes element={Profile} />} />
+          <Route path="/password/forgot" element={<ForgotPassword/>} />
       </Routes>
 
 

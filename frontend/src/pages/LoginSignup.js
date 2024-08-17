@@ -100,9 +100,7 @@ const LoginSignUp = () => {
       dispatch(clearErrors());
     }
 
-    // Only show success message the first time the user is authenticated
     if (isAuthenticated && !hasAuthenticated) {
-      // enqueueSnackbar("Logged in successfully", { variant: 'success', autoHideDuration: 3000 });
       setHasAuthenticated(true);
       dispatch(loadUser());
       navigate(redirect);

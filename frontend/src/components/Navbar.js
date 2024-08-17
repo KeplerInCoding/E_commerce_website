@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className='hover:text-blue-900'>ABOUT</div>
           </NavLink>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex md:gap-4 gap-2'>
           <NavLink to='/search' className={({ isActive }) => isActive ? "text-blue-900" : ""}>
             <div><i className="fa-solid fa-magnifying-glass hover:text-blue-900"></i></div>
           </NavLink>
@@ -55,7 +55,7 @@ const Navbar = () => {
             <div><i className="fa-solid fa-cart-shopping hover:text-blue-900"></i></div>
           </NavLink>
           <NavLink to='/login-signup' className={({ isActive }) => isActive ? "text-blue-900" : ""}>
-            <div><i className="fa-solid fa-user hover:text-blue-900"></i></div>
+            <div><i className="fa-solid fa-right-to-bracket hover:text-blue-900"></i></div>
           </NavLink>
         </div>
         <div>{isAuthenticated && user && <UserOptions user={user} />} </div>

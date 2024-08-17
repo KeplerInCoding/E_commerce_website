@@ -111,7 +111,7 @@ const Profile = () => {
                     <input
                       type="text"
                       id="name"
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none"
+                      className="w-full px-3 py-2 border focus:outline-none"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
@@ -122,7 +122,7 @@ const Profile = () => {
                     <input
                       type="email"
                       id="email"
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none"
+                      className="w-full px-3 py-2 border focus:outline-none"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -149,7 +149,7 @@ const Profile = () => {
             
 
             <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>Update Password</DialogTitle>
+              <DialogTitle>UPDATE PASSWORD</DialogTitle>
               <DialogContent>
                 <ChangePassword />
               </DialogContent>

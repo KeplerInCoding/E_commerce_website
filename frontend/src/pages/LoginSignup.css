@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(231, 231, 231);
+  background-color: #dee2e6;
   position: fixed;
   top: 0%;
   left: 0;
@@ -32,11 +32,11 @@
   width: 100%;
 }
 .login_signUp_toggle > p:hover {
-  color: tomato;
+  color: #0D47A1;
 }
 
 .LoginSignUpBox > div > button {
-  background-color: tomato;
+  background-color: #0D47A1;
   height: 3px;
   width: 50%;
   border: none;
@@ -127,7 +127,7 @@
 .loginBtn,
 .signUpBtn {
   border: none;
-  background-color: tomato;
+  background-color: #0D47A1;
   color: white;
   font: 300 0.9vmax "Roboto";
   width: 100%;
@@ -141,7 +141,7 @@
 
 .loginBtn:hover,
 .signUpBtn:hover {
-  background-color: rgb(179, 66, 46);
+  background-color: #0672CB;
 }
 
 .shiftToLeft {
