@@ -81,7 +81,7 @@ import {
       dispatch({ type: LOAD_USER_REQUEST });
   
       const { data } = await axios.get(`/api/v1/me`);
-      console.log("data", data);
+      // console.log("data", data);
   
       dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
     } catch (error) {

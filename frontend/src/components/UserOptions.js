@@ -56,7 +56,7 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
-    enqueueSnackbar("Logout Successfully", { variant: 'success' });
+    enqueueSnackbar("Logout Successfully", { variant: 'success' , autoHideDuration: 3000});
   }
 
   return (

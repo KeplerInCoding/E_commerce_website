@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const handleForgotPassword = (e) => {
     e.preventDefault();
     if (!email) {
-      enqueueSnackbar('Please enter your email', { variant: 'warning' });
+      enqueueSnackbar('Please enter your email', { variant: 'warning' , autoHideDuration: 3000});
       return;
     }
 
@@ -23,10 +23,10 @@ const ForgotPassword = () => {
 
     dispatch(forgotPassword(formData))
       .then((response) => {
-        enqueueSnackbar(response.data.message || 'Password reset email sent', { variant: 'success' });
+        enqueueSnackbar(response.data.message || 'Password reset email sent', { variant: 'success' , autoHideDuration: 3000});
       })
       .catch((error) => {
-        enqueueSnackbar(error.response?.data?.message || 'Error sending password reset email', { variant: 'error' });
+        enqueueSnackbar(error.response?.data?.message || 'Error sending password reset email', { variant: 'error' , autoHideDuration: 3000});
       });
   };
 

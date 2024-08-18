@@ -31,7 +31,7 @@ const ProductDetails = () => {
         dispatch(getProductDetails(id));
 
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error' ,autoHideDuration: 3000 });
             dispatch(clearErrors());
         }
 
@@ -41,7 +41,7 @@ const ProductDetails = () => {
         }
 
         if (success) {
-            enqueueSnackbar("Review submitted successfully", { variant: 'success' });
+            enqueueSnackbar("Review submitted successfully", { variant: 'success' ,autoHideDuration: 3000 });
             setReviewSubmitted(true);
             setOpen(false);
             dispatch({ type: NEW_REVIEW_RESET });
@@ -55,6 +55,7 @@ const ProductDetails = () => {
 
 
     const increaseQuantity = () => {
+        console.log("stock:", product.stock);
         if (quantity < product.stock) {
             setQuantity(quantity + 1);
         }
@@ -68,7 +69,7 @@ const ProductDetails = () => {
 
     const addToCartHandler = () => {
         dispatch(addToCart(product._id, quantity));
-        enqueueSnackbar("Added to cart", { variant: 'success' });
+        enqueueSnackbar("Added to cart", { variant: 'success', autoHideDuration: 3000  });
     };
 
     const handleOpen = () => setOpen(true);

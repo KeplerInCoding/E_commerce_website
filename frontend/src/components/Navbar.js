@@ -54,9 +54,11 @@ const Navbar = () => {
           <NavLink to='/cart' className={({ isActive }) => isActive ? "text-blue-900" : ""}>
             <div><i className="fa-solid fa-cart-shopping hover:text-blue-900"></i></div>
           </NavLink>
+          {!isAuthenticated &&
           <NavLink to='/login-signup' className={({ isActive }) => isActive ? "text-blue-900" : ""}>
             <div><i className="fa-solid fa-right-to-bracket hover:text-blue-900"></i></div>
-          </NavLink>
+          </NavLink>}
+          
         </div>
         <div>{isAuthenticated && user && <UserOptions user={user} />} </div>
 

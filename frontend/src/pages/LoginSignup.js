@@ -46,10 +46,10 @@ const LoginSignUp = () => {
     
     try {
       await dispatch(login(loginEmail, loginPassword));
-      enqueueSnackbar('Login successful', { variant: 'success' });
+      enqueueSnackbar('Login successful', { variant: 'success' , autoHideDuration: 3000});
     } catch (error) {
       console.error("Login Error:", error.response?.data);
-      enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error' });
+      enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error' , autoHideDuration: 3000});
     }
   };
 
@@ -69,10 +69,10 @@ const LoginSignUp = () => {
 
     try {
       await dispatch(register(myForm));
-      enqueueSnackbar('Registration successful', { variant: 'success' });
+      enqueueSnackbar('Registration successful', { variant: 'success' , autoHideDuration: 3000});
     } catch (error) {
       console.error("Registration Error:", error.response?.data);
-      enqueueSnackbar(error.response?.data?.message || 'Registration failed', { variant: 'error' });
+      enqueueSnackbar(error.response?.data?.message || 'Registration failed', { variant: 'error' , autoHideDuration: 3000});
     }
   };
 

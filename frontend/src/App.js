@@ -2,7 +2,6 @@ import React from "react";
 import WebFont from "webfontloader";
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
-import Footer from "./components/footer/Footer";
 import {Route, Routes} from 'react-router-dom';
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
@@ -38,9 +37,7 @@ function App() {
           <Route path="/account" element={<ProtectedRoutes element={Profile} />} />
           <Route path="/password/forgot" element={<ForgotPassword/>} />
       </Routes>
-
-
-      {location.pathname !== '/search' && <Footer />}
+      
     </div>
   );
 }

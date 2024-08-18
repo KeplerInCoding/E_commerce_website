@@ -20,7 +20,7 @@ import {
         quantity,
       },
     });
-  
+    // console.log("adding to local storage: ", getState().cart.cartItems);
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
   };
   
@@ -30,7 +30,7 @@ import {
       type: REMOVE_CART_ITEM,
       payload: id,
     });
-  
+    
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
   };
   

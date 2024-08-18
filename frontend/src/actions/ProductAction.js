@@ -42,7 +42,6 @@ import {
         }
 
         const { data } = await axios.get(link);
-        // console.log("link:",link);
 
         dispatch({ type: ALL_PRODUCT_SUCCESS, payload: data });
     } catch (error) {

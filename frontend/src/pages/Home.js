@@ -6,6 +6,7 @@ import { getProduct, clearErrors } from '../actions/ProductAction';
 import Metadata from '../components/Metadata';
 import ProductCard from '../components/ProductCard';
 import Spinner from '../components/Spinner';
+import Footer from '../components/footer/Footer';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const Home = () => {
 
     return (
         <div>
+
+
+
+<div>
             <Metadata title={"Flipzone - Home"} />
             <div
                 style={{
@@ -85,6 +90,14 @@ const Home = () => {
                 )}
             </div>
         </div>
+
+
+
+
+            <Footer />
+        </div>
+
+        
     );
 };
 
