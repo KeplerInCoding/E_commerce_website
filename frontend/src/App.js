@@ -11,6 +11,9 @@ import LoginSignup from "./pages/LoginSignup";
 import Profile from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ForgotPassword from "./pages/ForgotPassword";
+import CartItems from "./pages/CartItems";
+import Shipping from "./pages/Shipping";
+import ConfirmOrder from "./pages/ConfirmOrder";
 
 function App() {
 
@@ -36,6 +39,9 @@ function App() {
           
           <Route path="/account" element={<ProtectedRoutes element={Profile} />} />
           <Route path="/password/forgot" element={<ForgotPassword/>} />
+          <Route path="/cart" element={<CartItems/>} />
+          <Route path="/shipping" element={<Shipping/>} />
+          <Route path="/order/confirm" element={<ConfirmOrder/>} />
       </Routes>
       
     </div>

@@ -49,7 +49,6 @@ const Profile = () => {
     formData.set('password', password);
 
     if (avatar instanceof File) {
-      console.log("avatar updated in formdata");
       formData.append('avatar', avatar); // Only append if avatar is a file
     }
 

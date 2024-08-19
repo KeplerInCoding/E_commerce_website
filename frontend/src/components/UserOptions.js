@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
@@ -17,6 +17,7 @@ const UserOptions = ({ user }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
 
   const options = [
     { icon: <PersonIcon />, name: "Profile", func: account },
@@ -56,12 +57,34 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
-    enqueueSnackbar("Logout Successfully", { variant: 'success' , autoHideDuration: 3000});
+    enqueueSnackbar("Logout Successfully", { variant: 'success', autoHideDuration: 3000 });
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const handleOpen = () => {
+    if(!open) setOpen(true);
   }
 
   return (
-    <div className="relative">
-      <button onClick={() => setOpen(!open)} >
+    <div className="relative" ref={dropdownRef}>
+      <button onClick={()=>setOpen(!open)} >
         <img
           className="w-12 h-12 rounded-full"
           src={user.avatar.url ? user.avatar.url : profile}

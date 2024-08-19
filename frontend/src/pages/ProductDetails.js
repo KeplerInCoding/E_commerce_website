@@ -55,7 +55,6 @@ const ProductDetails = () => {
 
 
     const increaseQuantity = () => {
-        console.log("stock:", product.stock);
         if (quantity < product.stock) {
             setQuantity(quantity + 1);
         }
@@ -111,16 +110,16 @@ const ProductDetails = () => {
 
                         <div className='flex justify-center items-center gap-10'>
                             <p className="text-xl font-semibold ">₹{product.price}</p>
-                            <p className={`text-lg ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            <p className={`text-lg font-bold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
                             </p>
                         </div>
 
                         {/* Quantity Controls */}
                         <div className="quantity-container flex items-center justify-center my-4">
-                            <button onClick={decreaseQuantity} className="quantity-btn px-3 py-1 bg-white border-1 font-extrabold text-xl text-gray-800 rounded">-</button>
+                            <button onClick={decreaseQuantity} className="w-10 h-10 flex items-center justify-center font-extrabold text-xl text-white bg-slate-600 hover:bg-slate-800 rounded-full">-</button>
                             <span className="quantity-display mx-4 text-lg">{quantity}</span>
-                            <button onClick={increaseQuantity} className="quantity-btn px-3 py-1 bg-white border-1 font-extrabold text-xl text-gray-800 rounded">+</button>
+                            <button onClick={increaseQuantity} className="w-10 h-10 flex items-center justify-center font-extrabold text-xl text-white bg-slate-600 hover:bg-slate-800 rounded-full">+</button>
                         </div>
 
                         <div className='flex justify-center items-center my-5 gap-3'>

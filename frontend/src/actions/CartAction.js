@@ -2,6 +2,7 @@ import {
     ADD_TO_CART,
     REMOVE_CART_ITEM,
     SAVE_SHIPPING_INFO,
+    UPDATE_CART_ITEM_QUANTITY,
   } from "../constants/CartConstants";
   import axios from "axios";
   
@@ -16,7 +17,7 @@ import {
         name: data.product.name,
         price: data.product.price,
         image: data.product.images[0].url,
-        stock: data.product.Stock,
+        stock: data.product.stock,
         quantity,
       },
     });
@@ -32,6 +33,15 @@ import {
     });
     
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  };
+
+
+  // Update quantity in cart logic
+  export const updateQuantity = (product, quantity) => async (dispatch, getState) => {
+    dispatch({
+      type: 'UPDATE_CART_ITEM_QUANTITY',
+      payload: { product, quantity }
+    });
   };
   
   // SAVE SHIPPING INFO
