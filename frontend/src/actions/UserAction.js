@@ -53,6 +53,7 @@ import {
       
       dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     } catch (error) {
+      console.error('Login Error in Action Creator:', error);
       dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
     }
   };

@@ -20,7 +20,15 @@ const ConfirmOrder = () => {
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.country} - ${shippingInfo.pinCode}`;
 
   const proceedToPayment = () => {
-    navigate("/payment"); // Adjust to your payment route
+    const data = {
+      subtotal,
+      shippingCharges,
+      tax,
+      totalPrice,
+    };
+
+    sessionStorage.setItem("orderInfo", JSON.stringify(data));
+    navigate("/process/payment"); // Adjust to your payment route
   };
 
   return (

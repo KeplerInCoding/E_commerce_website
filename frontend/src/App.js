@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import CartItems from "./pages/CartItems";
 import Shipping from "./pages/Shipping";
 import ConfirmOrder from "./pages/ConfirmOrder";
+import Payment from "./pages/Payment";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/cart" element={<CartItems/>} />
           <Route path="/shipping" element={<Shipping/>} />
           <Route path="/order/confirm" element={<ConfirmOrder/>} />
+          <Route path="/process/payment" element={<Payment/>} />
       </Routes>
       
     </div>

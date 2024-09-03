@@ -19,7 +19,7 @@ const Shipping = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [address, setAddress] = useState("");
-  const [pincode, setPincode] = useState("");
+  const [postalCode, setPincode] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -28,7 +28,7 @@ const Shipping = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!address || !pincode || !phoneNo || !city || !state || !country) {
+    if (!address || !postalCode || !phoneNo || !city || !state || !country) {
       enqueueSnackbar("Please fill in all fields", { variant: "error" });
       return;
     }
@@ -38,7 +38,7 @@ const Shipping = () => {
         return;
     }
 
-    dispatch(saveShippingInfo({ address, pincode, phoneNo, city, state, country }));
+    dispatch(saveShippingInfo({ address, postalCode, phoneNo, city, state, country }));
     navigate("/order/confirm");
   };
 
@@ -65,7 +65,7 @@ const Shipping = () => {
             <input
               type="number"
               placeholder="Pincode"
-              value={pincode}
+              value={postalCode}
               onChange={(e) => setPincode(e.target.value)}
               className="pl-10 pr-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

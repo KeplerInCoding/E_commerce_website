@@ -45,12 +45,19 @@ const LoginSignUp = () => {
     e.preventDefault();
     
     try {
-      await dispatch(login(loginEmail, loginPassword));
-      enqueueSnackbar('Login successful', { variant: 'success' , autoHideDuration: 3000});
+      const resultAction = await dispatch(login(loginEmail, loginPassword));
+    
+      if (login.fulfilled.match(resultAction)) {
+        enqueueSnackbar('Login successful', { variant: 'success', autoHideDuration: 3000 });
+      } else if (login.rejected.match(resultAction)) {
+        const errorMessage = resultAction.payload?.message || 'Login failed';
+        enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
+      }
     } catch (error) {
       console.error("Login Error:", error.response?.data);
-      enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error' , autoHideDuration: 3000});
+      // enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error', autoHideDuration: 3000 });
     }
+    
   };
 
   const registerSubmit = async (e) => {
