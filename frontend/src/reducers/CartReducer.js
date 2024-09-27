@@ -53,6 +53,12 @@ import {
           ...state,
           cartItems: updatedItems
         };
+
+      case 'CLEAR_CART':
+          return {
+            ...state,
+            cartItems: [], // Clear the cart items
+          };
   
       default:
         return state;

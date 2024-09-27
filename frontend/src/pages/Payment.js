@@ -4,6 +4,8 @@ import { Snackbar, Alert } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { useSelector } from "react-redux";
+import { clearCart } from '../actions/CartAction';
+import { createOrder } from '../actions/OrderAction';
 
 const Payment = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -38,8 +40,8 @@ const Payment = () => {
             };
             
 
-            // Send request to the backend to update orders schema
-            await axios.post('/api/v1/order/new', orderData);
+            // Send request to the backend to update orders schema]
+            dispatch(createOrder(orderData));
 
             enqueueSnackbar('Paid Successfully!', {
                 variant: 'success',
@@ -48,6 +50,7 @@ const Payment = () => {
                     <CheckCircleIcon className="w-6 h-6 text-green-500" />
                 ),
             });
+            dispatch(clearCart());
         } catch (error) {
             // enqueueSnackbar('Payment failed!', { variant: 'error' });
         }

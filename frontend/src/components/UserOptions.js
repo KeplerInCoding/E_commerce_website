@@ -88,6 +88,7 @@ const UserOptions = ({ user }) => {
         <img
           className="w-12 h-12 rounded-full"
           src={user.avatar.url ? user.avatar.url : profile}
+          // src={ profile}
           alt="Profile"
         />
       </button>

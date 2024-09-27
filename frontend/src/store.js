@@ -1,7 +1,36 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { productDetailsReducer, productReducer, newReviewReducer } from './reducers/ProductReducer';
-import { userReducer, forgotPasswordReducer } from './reducers/UserReducer'; 
-import { cartReducer } from './reducers/CartReducer';
+
+
+
+// import { createStore, combineReducers, applyMiddleware } from "redux";
+// import thunk from "redux-thunk";
+// import { composeWithDevTools } from "redux-devtools-extension";
+import {
+  newProductReducer,
+  newReviewReducer,
+  productDetailsReducer,
+  productReducer,
+  productReviewsReducer,
+  productsReducer,
+  reviewReducer,
+} from "./reducers/ProductReducer";
+
+import {
+  allUsersReducer,
+  forgotPasswordReducer,
+  profileReducer,
+  userDetailsReducer,
+  userReducer,
+} from "./reducers/UserReducer";
+
+import { cartReducer } from "./reducers/CartReducer";
+import {
+  allOrdersReducer,
+  myOrdersReducer,
+  newOrderReducer,
+  orderDetailsReducer,
+  orderReducer,
+} from "./reducers/OrderReducer";
 
 
 let initialState = {
@@ -23,6 +52,8 @@ const store = configureStore({
         user: userReducer,
         cart: cartReducer,
         forgotPassword: forgotPasswordReducer,
+        myOrders: myOrdersReducer,
+        orderDetails: orderDetailsReducer,
     },
     preloadedState: initialState,
     devTools: process.env.NODE_ENV !== 'production', // Enable devTools only in development

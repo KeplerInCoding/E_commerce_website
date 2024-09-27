@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import Metadata from '../components/Metadata';
 import ChangePassword from '../components/ChangePassword';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
+import profile from '../images/Profile.png';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -88,11 +89,16 @@ const Profile = () => {
                 <div>
                   <div className="mb-4">
                     <div className="flex flex-col gap-6">
-                      <img
-                        src={avatar instanceof File ? URL.createObjectURL(avatar) : avatar || '/default-avatar.png'} // Use URL.createObjectURL for File objects
-                        alt="Avatar Preview"
-                        className="w-60 h-60 rounded-full mr-4 hover:shadow-lg hover:shadow-blue-900"
-                      />
+                    <img
+                      src={
+                        avatar instanceof File 
+                          ? URL.createObjectURL(avatar) 
+                          : user?.avatar?.url || profile // Fallback to default avatar image
+                      }
+                      alt="Avatar Preview"
+                      className="w-60 h-60 rounded-full mr-4 hover:shadow-lg hover:shadow-blue-900"
+                    />
+
                       <input
                         type="file"
                         name="avatar"

@@ -53,3 +53,11 @@ import {
   
     localStorage.setItem("shippingInfo", JSON.stringify(data));
   };
+
+  // CLEAR CART AFTER ORDER IS PLACED
+export const clearCart = () => async (dispatch) => {
+  dispatch({ type: 'CLEAR_CART' });
+
+  // Clear cart items from local storage
+  localStorage.removeItem('cartItems');
+};

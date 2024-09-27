@@ -15,6 +15,8 @@ import CartItems from "./pages/CartItems";
 import Shipping from "./pages/Shipping";
 import ConfirmOrder from "./pages/ConfirmOrder";
 import Payment from "./pages/Payment";
+import MyOrders from "./pages/MyOrders";
+import OrderDetails from "./pages/OrderDetails";
 
 function App() {
 
@@ -27,24 +29,24 @@ function App() {
   }, []);
   return (
     <div className=" bg-gray-300">
-      <Navbar/>
-      
+      <Navbar/>   
 
-
-      <Routes>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products/:keyword?" element={<Products />} />
           <Route path="/search" element={<Search />} />
           <Route path="/login-signup" element={<LoginSignup />} />
-          
           <Route path="/account" element={<ProtectedRoutes element={Profile} />} />
-          <Route path="/password/forgot" element={<ForgotPassword/>} />
           <Route path="/cart" element={<CartItems/>} />
-          <Route path="/shipping" element={<Shipping/>} />
-          <Route path="/order/confirm" element={<ConfirmOrder/>} />
-          <Route path="/process/payment" element={<Payment/>} />
-      </Routes>
+          <Route path="/password/forgot" element={<ProtectedRoutes element={ForgotPassword} />} />
+          <Route path="/shipping" element={<ProtectedRoutes element={Shipping} />} />
+          <Route path="/order/confirm" element={<ProtectedRoutes element={ConfirmOrder} />} />
+          <Route path="/process/payment" element={<ProtectedRoutes element={Payment} />} />
+          <Route path="/orders" element={<ProtectedRoutes element={MyOrders} />} />
+          <Route path="/order/:id" element={<ProtectedRoutes element={ OrderDetails } />} />
+        </Routes>
+
       
     </div>
   );
