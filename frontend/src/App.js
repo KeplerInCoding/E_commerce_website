@@ -41,10 +41,10 @@ function App() {
           <Route path="/cart" element={<CartItems/>} />
           <Route path="/password/forgot" element={<ProtectedRoutes element={ForgotPassword} />} />
           <Route path="/shipping" element={<ProtectedRoutes element={Shipping} />} />
-          <Route path="/order/confirm" element={<ProtectedRoutes element={ConfirmOrder} />} />
           <Route path="/process/payment" element={<ProtectedRoutes element={Payment} />} />
           <Route path="/orders" element={<ProtectedRoutes element={MyOrders} />} />
           <Route path="/order/:id" element={<ProtectedRoutes element={ OrderDetails } />} />
+          <Route path="/order/confirm" element={<ProtectedRoutes element={ConfirmOrder} />} />
         </Routes>
 
       

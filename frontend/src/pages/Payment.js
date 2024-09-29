@@ -31,7 +31,7 @@ const Payment = () => {
                 shippingInfo,
                 paymentInfo: {
                     id: 'payment-id-simulated',
-                    status: 'Paid',
+                    status: 'succeeded',
                 },
                 itemsPrice: orderInfo.subtotal,
                 taxPrice: orderInfo.tax,
