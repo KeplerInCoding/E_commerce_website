@@ -24,5 +24,5 @@ exports.authorizeRoles = (...roles)=>{
             return next(new ErrorHandler(`Role ${req.user.role} is not authorized to access this resource`), 403);
         }
         next();
-    };            
+    };
 }

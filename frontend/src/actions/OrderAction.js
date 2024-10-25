@@ -34,7 +34,9 @@ import {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(`${apiUrl}/api/v1/order/new`, order, config);
+      const { data } = await axios.post(`${apiUrl}/api/v1/order/new`, order, config, {
+        withCredentials: true
+      });
   
       dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
     } catch (error) {
@@ -50,7 +52,9 @@ import {
     try {
       dispatch({ type: MY_ORDERS_REQUEST });
   
-      const { data } = await axios.get(`${apiUrl}/api/v1/orders/me`);
+      const { data } = await axios.get(`${apiUrl}/api/v1/orders/me`, {
+        withCredentials: true
+      });
       console.log(data);
   
       dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
@@ -67,7 +71,9 @@ import {
     try {
       dispatch({ type: ALL_ORDERS_REQUEST });
   
-      const { data } = await axios.get(`${apiUrl}/api/v1/admin/orders`);
+      const { data } = await axios.get(`${apiUrl}/api/v1/admin/orders`, {
+        withCredentials: true
+      });
   
       dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {
@@ -91,7 +97,9 @@ import {
       const { data } = await axios.put(
         `${apiUrl}/api/v1/admin/order/${id}`,
         order,
-        config
+        config, {
+          withCredentials: true
+        }
       );
   
       dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
@@ -108,7 +116,9 @@ import {
     try {
       dispatch({ type: DELETE_ORDER_REQUEST });
   
-      const { data } = await axios.delete(`${apiUrl}/api/v1/admin/order/${id}`);
+      const { data } = await axios.delete(`${apiUrl}/api/v1/admin/order/${id}`, {
+        withCredentials: true
+      });
   
       dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
     } catch (error) {
@@ -124,7 +134,9 @@ import {
     try {
       dispatch({ type: ORDER_DETAILS_REQUEST });
   
-      const { data } = await axios.get(`${apiUrl}/api/v1/order/${id}`);
+      const { data } = await axios.get(`${apiUrl}/api/v1/order/${id}`, {
+        withCredentials: true
+      });
   
       dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
     } catch (error) {

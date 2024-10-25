@@ -10,7 +10,9 @@ import {
   
   // Add to Cart
   export const addToCart = (id, quantity) => async (dispatch, getState) => {
-    const { data } = await axios.get(`${apiUrl}/api/v1/product/${id}`);
+    const { data } = await axios.get(`${apiUrl}/api/v1/product/${id}`, {
+      withCredentials: true
+    });
   
     dispatch({
       type: ADD_TO_CART,

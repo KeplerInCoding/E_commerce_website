@@ -44,7 +44,9 @@ import {
             link += `&category=${category}`;
         }
 
-        const { data } = await axios.get(link);
+        const { data } = await axios.get(link, {
+            withCredentials: true
+          });
 
         dispatch({ type: ALL_PRODUCT_SUCCESS, payload: data });
     } catch (error) {
@@ -60,7 +62,9 @@ import {
 export const getProductDetails = (id) => async (dispatch) => {
     try{
         dispatch({type: PRODUCT_DETAILS_REQUEST});
-        const {data} = await axios.get(`${apiUrl}/api/v1/product/${id}`);
+        const {data} = await axios.get(`${apiUrl}/api/v1/product/${id}`, {
+            withCredentials: true
+          });
         dispatch({type: PRODUCT_DETAILS_SUCCESS, payload: data.product});
         }  
     catch (error) {
@@ -83,7 +87,9 @@ export const newReview = (reviewData) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(`${apiUrl}/api/v1/review`, reviewData, config);
+        const { data } = await axios.put(`${apiUrl}/api/v1/review`, reviewData, config, {
+            withCredentials: true
+          });
 
         dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.success });
     } catch (error) {
