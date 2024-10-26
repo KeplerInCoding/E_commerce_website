@@ -43,22 +43,28 @@ const LoginSignUp = () => {
 
   const loginSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const resultAction = await dispatch(login(loginEmail, loginPassword));
-    
-      if (login.fulfilled.match(resultAction)) {
-        enqueueSnackbar('Login successful', { variant: 'success', autoHideDuration: 3000 });
-      } else if (login.rejected.match(resultAction)) {
-        const errorMessage = resultAction.payload?.message || 'Login failed';
-        enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
-      }
+        const resultAction = await dispatch(login(loginEmail, loginPassword));
+
+        // Check if the action was fulfilled (successful)
+        if (login.fulfilled.match(resultAction)) {
+            enqueueSnackbar('Login successful', { variant: 'success', autoHideDuration: 3000 });
+        } 
+        // Check if the action was rejected (failed)
+        else if (login.rejected.match(resultAction)) {
+            const errorMessage = resultAction.payload?.message || 'Login failed';
+            enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
+        }
     } catch (error) {
-      console.error("Login Error:", error.response?.data);
-      // enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error', autoHideDuration: 3000 });
+        // Log the error details to the console for debugging
+        console.error("Login Error:", error.response ? error.response.data : error.message);
+        
+        // Provide feedback using Snackbar
+        enqueueSnackbar(error.response?.data?.message || 'Login failed', { variant: 'error', autoHideDuration: 3000 });
     }
-    
-  };
+};
+
 
   const registerSubmit = async (e) => {
     e.preventDefault();

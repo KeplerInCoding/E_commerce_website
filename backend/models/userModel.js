@@ -55,9 +55,12 @@ userSchema.pre("save", async function (next) {
 
 // JWT token generation method---to identify user-session using cookie
 userSchema.methods.getJWTToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE,
-    });
+    // return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    //     expiresIn: process.env.JWT_EXPIRE,
+    // });
+    const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
+    console.log("Generated Token:", token); // Log the generated token
+    return token;
 };
 
 // Method to compare user password with the hashed password in the database
