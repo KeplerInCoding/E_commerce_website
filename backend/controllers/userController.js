@@ -149,6 +149,11 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Get user (my) details
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    // res.setHeader("Access-Control-Allow-Origin", "*")
+    // res.setHeader("Access-Control-Allow-Credentials", "true");
+    // res.setHeader("Access-Control-Max-Age", "1800");
+    // res.setHeader("Access-Control-Allow-Headers", "content-type");
+    // res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     const user = await User.findById(req.user.id);
 
     res.status(200).json({
